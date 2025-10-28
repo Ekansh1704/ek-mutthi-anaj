@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ek-mutthi-anaj/static/css/main.e8cf6382.css",
+    "main.js": "/ek-mutthi-anaj/static/js/main.3d4c5678.js",
+    "static/js/453.1ce2e441.chunk.js": "/ek-mutthi-anaj/static/js/453.1ce2e441.chunk.js",
+    "index.html": "/ek-mutthi-anaj/index.html",
+    "main.e8cf6382.css.map": "/ek-mutthi-anaj/static/css/main.e8cf6382.css.map",
+    "main.3d4c5678.js.map": "/ek-mutthi-anaj/static/js/main.3d4c5678.js.map",
+    "453.1ce2e441.chunk.js.map": "/ek-mutthi-anaj/static/js/453.1ce2e441.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e8cf6382.css",
+    "static/js/main.3d4c5678.js"
+  ]
+}
