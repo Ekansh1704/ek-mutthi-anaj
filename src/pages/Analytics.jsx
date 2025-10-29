@@ -43,19 +43,20 @@ const Analytics = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 pt-28 pb-20">
+    <div className="min-h-screen bg-gray-50 text-gray-800 pt-24 pb-16">
       {/* HEADER */}
-      <section className="text-center px-4">
-        <h1 className="text-5xl font-extrabold tracking-wide text-blue-800 mb-3">
+      <section className="text-center px-4 sm:px-6">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-800 mb-3">
           Analytics Dashboard
         </h1>
-        <p className="text-lg font-medium text-gray-600">
-          Insights into grain collection, distribution, and volunteer activity.
+        <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+          Gain insights into grain collection, distribution efficiency, and
+          volunteer participation trends.
         </p>
       </section>
 
       {/* METRICS SECTION */}
-      <section className="flex flex-wrap justify-center gap-10 mt-12 px-8">
+      <section className="flex flex-wrap justify-center gap-6 sm:gap-10 mt-12 px-4 sm:px-8">
         {[
           {
             title: "Avg. Monthly Growth",
@@ -78,9 +79,9 @@ const Analytics = () => {
         ].map((item, i) => (
           <div
             key={i}
-            className={`bg-white shadow-lg rounded-2xl w-72 p-6 text-center border-2 ${item.border} hover:shadow-xl transition-transform duration-300 hover:scale-105`}
+            className={`bg-white shadow-lg rounded-2xl w-72 max-w-[85vw] p-6 text-center border-2 ${item.border} hover:shadow-xl transform hover:scale-105 transition duration-300`}
           >
-            <h2 className="text-lg font-semibold text-gray-700 mb-2">
+            <h2 className="text-lg font-semibold text-gray-700 mb-1">
               {item.title}
             </h2>
             <p className={`text-4xl font-extrabold ${item.color}`}>
@@ -91,25 +92,26 @@ const Analytics = () => {
       </section>
 
       {/* CHARTS SECTION */}
-      <section className="grid md:grid-cols-2 gap-12 max-w-7xl mx-auto mt-20 px-8">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12 max-w-7xl mx-auto mt-16 px-4 sm:px-8">
         {/* LINE CHART */}
-        <div className="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-blue-700">
-          <h3 className="text-2xl font-bold text-blue-800 mb-5 text-center">
-            Collection vs Distribution Trend (6 Months)
+        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border-t-4 border-blue-700">
+          <h3 className="text-xl sm:text-2xl font-bold text-blue-800 mb-5 text-center">
+            Collection vs Distribution (6 Months)
           </h3>
-          <ResponsiveContainer width="100%" height={320}>
+          <ResponsiveContainer width="100%" height={300}>
             <LineChart data={trendData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis dataKey="month" tick={{ fontSize: 12 }} />
               <YAxis />
               <Tooltip />
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: "0.8rem" }} />
               <Line
                 type="monotone"
                 dataKey="collected"
                 stroke="#2563eb"
                 strokeWidth={3}
                 name="Collected"
+                dot={{ r: 4 }}
               />
               <Line
                 type="monotone"
@@ -117,17 +119,18 @@ const Analytics = () => {
                 stroke="#facc15"
                 strokeWidth={3}
                 name="Distributed"
+                dot={{ r: 4 }}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* BAR CHART */}
-        <div className="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-yellow-400">
-          <h3 className="text-2xl font-bold text-blue-800 mb-5 text-center">
+        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border-t-4 border-yellow-400">
+          <h3 className="text-xl sm:text-2xl font-bold text-blue-800 mb-5 text-center">
             Center-Wise Performance
           </h3>
-          <ResponsiveContainer width="100%" height={320}>
+          <ResponsiveContainer width="100%" height={300}>
             <BarChart data={centerPerformance}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis dataKey="center" tick={{ fontSize: 12 }} />
@@ -140,12 +143,12 @@ const Analytics = () => {
       </section>
 
       {/* AREA CHART */}
-      <section className="max-w-4xl mx-auto mt-20 px-8">
-        <div className="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-blue-700">
-          <h3 className="text-2xl font-bold text-blue-800 mb-5 text-center">
+      <section className="max-w-4xl mx-auto mt-16 px-4 sm:px-8">
+        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border-t-4 border-blue-700">
+          <h3 className="text-xl sm:text-2xl font-bold text-blue-800 mb-5 text-center">
             Volunteer Activity Trend
           </h3>
-          <ResponsiveContainer width="100%" height={320}>
+          <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={volunteerActivity}>
               <defs>
                 <linearGradient id="colorActive" x1="0" y1="0" x2="0" y2="1">

@@ -6,10 +6,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#3B82F6",      // Blue-500 (main accent)
-        background: "#FFFFFF",   // White background
-        text: "#1F2937",         // Gray-800 text
-        card: "#F9FAFB",         // Light card background
+        primary: "#3B82F6",
+        background: "#FFFFFF",
+        text: "#1F2937",
+        card: "#F9FAFB",
+        accent: "#22C55E", // green accent for positive stats
+      },
+      fontFamily: {
+        sans: ["Inter", "Poppins", "system-ui", "sans-serif"], // modern readable fonts
+      },
+      boxShadow: {
+        soft: "0 4px 20px rgba(0,0,0,0.05)", // soft shadows for cards
       },
     },
   },

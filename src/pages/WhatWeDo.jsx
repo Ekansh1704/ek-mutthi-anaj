@@ -3,21 +3,21 @@ import { motion } from "framer-motion";
 
 const WhatWeDo = () => {
   return (
-    <div className="bg-white text-gray-800">
+    <div className="bg-white text-gray-800 overflow-x-hidden">
 
       {/* HERO SECTION */}
       <section
-        className="relative h-[80vh] flex items-center justify-center bg-cover bg-center"
+        className="relative h-[70vh] md:h-[80vh] flex items-center justify-center bg-cover bg-center mt-[72px]"
         style={{
           backgroundImage: `url(${process.env.PUBLIC_URL}/what-we-do-bg.jpg)`,
         }}
       >
-        <div className="absolute inset-0 bg-black bg-opacity-40" />
-        <div className="relative z-10 text-center px-6">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+        <div className="absolute inset-0 bg-black bg-opacity-50" />
+        <div className="relative z-10 text-center px-6 md:px-10">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-snug drop-shadow-lg">
             What We Do
           </h1>
-          <p className="text-lg md:text-xl text-gray-100 max-w-2xl mx-auto">
+          <p className="text-base md:text-xl text-gray-100 max-w-2xl mx-auto">
             Every grain counts. Every act of kindness matters.  
             Ek Mutthi Anaj bridges hearts through food and compassion.
           </p>
@@ -25,17 +25,19 @@ const WhatWeDo = () => {
       </section>
 
       {/* MISSION SECTION */}
-      <section className="py-20 px-6 md:px-16 bg-gray-50">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-16 md:py-20 px-6 md:px-16 bg-gray-50">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           <motion.img
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.03 }}
             src={`${process.env.PUBLIC_URL}/mission-team.png`}
             alt="Ek Mutthi Anaj Mission Team"
             className="rounded-3xl shadow-xl w-full h-auto object-cover"
           />
           <div>
-            <h2 className="text-4xl font-bold text-blue-700 mb-6">Our Mission</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-700 mb-6">
+              Our Mission
+            </h2>
+            <p className="text-base md:text-lg text-gray-700 leading-relaxed">
               Ek Mutthi Anaj aims to ensure that no one sleeps hungry.  
               We collect small contributions of food grains from individuals, societies, and institutions, 
               and channel them towards orphanages, old-age homes, and shelters that need support.  
@@ -46,17 +48,19 @@ const WhatWeDo = () => {
       </section>
 
       {/* HISTORY SECTION */}
-      <section className="py-20 px-6 md:px-16 bg-white">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-16 md:py-20 px-6 md:px-16 bg-white">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           <motion.img
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.03 }}
             src={`${process.env.PUBLIC_URL}/history-img.png`}
             alt="History of Ek Mutthi Anaj"
-            className="rounded-3xl shadow-lg w-full h-auto object-cover"
+            className="rounded-3xl shadow-lg w-full h-auto object-cover order-last md:order-first"
           />
           <div>
-            <h2 className="text-4xl font-bold text-blue-700 mb-6">Our History</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-700 mb-6">
+              Our History
+            </h2>
+            <p className="text-base md:text-lg text-gray-700 leading-relaxed">
               The Ek Mutthi Anaj campaign, launched in 2007, is a growing movement rooted in the spirit of compassion.  
               Traditionally, people in India would set aside a portion of their daily food or grain to feed a Fakir, Sadhu, Bhikshu, or even an animal that came to their doorstep.  
               Ek Mutthi Anaj brings back this timeless practice in a modern, organized way — partnering with schools, communities, and corporations to collect grains that are distributed to community kitchens and homes in need.
@@ -65,12 +69,12 @@ const WhatWeDo = () => {
         </div>
       </section>
 
-      {/* WHO ALL CAN JOIN IN */}
-      <section className="py-20 bg-gray-50 px-6 md:px-16">
-        <h2 className="text-4xl font-bold text-center text-blue-700 mb-12">
+      {/* WHO CAN JOIN */}
+      <section className="py-16 md:py-20 bg-gray-50 px-6 md:px-16">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-12">
           Who All Can Join In?
         </h2>
-        <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-6xl mx-auto">
           {[
             {
               title: "Corporates",
@@ -96,16 +100,20 @@ const WhatWeDo = () => {
             <motion.div
               key={i}
               whileHover={{ scale: 1.03 }}
-              className="bg-white p-8 rounded-3xl shadow-md flex items-center gap-6"
+              className="bg-white p-6 md:p-8 rounded-3xl shadow-md flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left"
             >
               <img
                 src={item.img}
                 alt={item.title}
-                className="w-28 h-28 rounded-full object-cover shadow-md"
+                className="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover shadow-md"
               />
               <div>
-                <h3 className="text-2xl font-semibold text-blue-600 mb-2">{item.title}</h3>
-                <p className="text-gray-700">{item.desc}</p>
+                <h3 className="text-xl md:text-2xl font-semibold text-blue-600 mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-gray-700 text-sm md:text-base">
+                  {item.desc}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -113,9 +121,11 @@ const WhatWeDo = () => {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-20 bg-white px-6 md:px-16 text-center">
-        <h2 className="text-4xl font-bold text-blue-700 mb-12">How It Works</h2>
-        <div className="grid md:grid-cols-4 gap-10">
+      <section className="py-16 md:py-20 bg-white px-6 md:px-16 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-blue-700 mb-12">
+          How It Works
+        </h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 max-w-6xl mx-auto">
           {[
             {
               title: "Collection",
@@ -141,26 +151,28 @@ const WhatWeDo = () => {
             <motion.div
               key={index}
               whileHover={{ scale: 1.05 }}
-              className="bg-gray-50 rounded-2xl shadow-md p-6"
+              className="bg-gray-50 rounded-2xl shadow-md p-5 md:p-6"
             >
               <img
                 src={step.img}
                 alt={step.title}
-                className="rounded-xl mb-4 h-48 w-full object-cover"
+                className="rounded-xl mb-4 h-44 md:h-48 w-full object-cover"
               />
-              <h3 className="text-xl font-semibold text-blue-600 mb-2">
+              <h3 className="text-lg md:text-xl font-semibold text-blue-600 mb-2">
                 {step.title}
               </h3>
-              <p className="text-gray-600 text-sm">{step.desc}</p>
+              <p className="text-gray-600 text-sm md:text-base">
+                {step.desc}
+              </p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* IMPACT SECTION */}
-      <section className="py-20 bg-gradient-to-r from-blue-700 to-blue-500 text-white text-center">
-        <h2 className="text-4xl font-bold mb-10">Our Impact</h2>
-        <div className="grid md:grid-cols-3 gap-10 max-w-5xl mx-auto">
+      <section className="py-16 md:py-20 bg-gradient-to-r from-blue-700 to-blue-500 text-white text-center px-6">
+        <h2 className="text-3xl md:text-4xl font-bold mb-10">Our Impact</h2>
+        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {[
             { number: "5000+", label: "Kg Grains Collected" },
             { number: "20+", label: "Homes & Orphanages Supported" },
@@ -168,22 +180,22 @@ const WhatWeDo = () => {
           ].map((stat, i) => (
             <motion.div
               key={i}
-              whileHover={{ scale: 1.1 }}
-              className="bg-white/10 p-8 rounded-2xl shadow-md backdrop-blur-md"
+              whileHover={{ scale: 1.08 }}
+              className="bg-white/10 p-6 md:p-8 rounded-2xl shadow-md backdrop-blur-md"
             >
-              <h3 className="text-5xl font-bold mb-3">{stat.number}</h3>
-              <p className="text-lg">{stat.label}</p>
+              <h3 className="text-4xl md:text-5xl font-bold mb-3">{stat.number}</h3>
+              <p className="text-base md:text-lg">{stat.label}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* GALLERY SECTION */}
-      <section className="py-20 px-6 md:px-16 bg-gray-50">
-        <h2 className="text-4xl font-bold text-blue-700 text-center mb-12">
+      {/* GALLERY */}
+      <section className="py-16 md:py-20 px-6 md:px-16 bg-gray-50">
+        <h2 className="text-3xl md:text-4xl font-bold text-blue-700 text-center mb-12">
           Moments of Service
         </h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {[
             "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1525253086316-d0c936c814f8?auto=format&fit=crop&w=800&q=80",
@@ -197,24 +209,24 @@ const WhatWeDo = () => {
               whileHover={{ scale: 1.05 }}
               src={img}
               alt="Gallery"
-              className="rounded-2xl shadow-md object-cover h-64 w-full"
+              className="rounded-2xl shadow-md object-cover h-56 md:h-64 w-full"
             />
           ))}
         </div>
       </section>
 
-      {/* CALL TO ACTION */}
-      <section className="py-16 bg-blue-700 text-center text-white">
-        <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+      {/* CTA */}
+      <section className="py-14 md:py-16 bg-blue-700 text-center text-white px-6">
+        <h2 className="text-2xl md:text-4xl font-semibold mb-4">
           Join Us in Making a Difference
         </h2>
-        <p className="text-gray-100 mb-8 max-w-2xl mx-auto">
+        <p className="text-gray-100 mb-6 md:mb-8 max-w-2xl mx-auto text-sm md:text-base">
           Together, we can make sure no one goes to bed hungry.  
           Be part of the Ek Mutthi Anaj movement today.
         </p>
         <a
           href="/contact"
-          className="px-8 py-3 bg-yellow-400 text-blue-900 font-semibold rounded-full shadow-md hover:bg-yellow-300 transition"
+          className="px-6 md:px-8 py-3 bg-yellow-400 text-blue-900 font-semibold rounded-full shadow-md hover:bg-yellow-300 transition"
         >
           Get Involved
         </a>

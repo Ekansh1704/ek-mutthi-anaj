@@ -1,4 +1,4 @@
-// src/pages/Dashboard.js
+// src/pages/Dashboard.jsx
 import React from "react";
 import {
   BarChart,
@@ -43,53 +43,41 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="bg-white min-h-screen text-gray-800 pt-24 pb-20">
+    <div className="bg-white min-h-screen text-gray-800 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
       {/* HEADER */}
-      <section className="text-center">
-        <h1 className="text-4xl font-bold text-gray-800 mb-3">
+      <section className="text-center max-w-3xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-3">
           Dashboard Overview
         </h1>
-        <p className="text-gray-500 text-base max-w-2xl mx-auto">
-          View live data about food grain collections, distributions, and stock
-          levels across centers.
+        <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
+          Monitor real-time data about food grain collections, distributions, and stock levels across centers.
         </p>
       </section>
 
       {/* STATS CARDS */}
-      <section className="flex flex-wrap justify-center gap-8 mt-10 px-6">
-        <div className="bg-white shadow-md rounded-2xl w-80 p-6 text-center border border-gray-100 hover:shadow-lg transition-all">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2">
-            Total Grains Collected
-          </h2>
-          <p className="text-3xl font-extrabold text-green-500 tracking-wide">
-            2,345 kg
-          </p>
-        </div>
-
-        <div className="bg-white shadow-md rounded-2xl w-80 p-6 text-center border border-gray-100 hover:shadow-lg transition-all">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2">
-            Centers Supported
-          </h2>
-          <p className="text-3xl font-extrabold text-blue-600 tracking-wide">
-            18
-          </p>
-        </div>
-
-        <div className="bg-white shadow-md rounded-2xl w-80 p-6 text-center border border-gray-100 hover:shadow-lg transition-all">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2">
-            Volunteers Active
-          </h2>
-          <p className="text-3xl font-extrabold text-yellow-500 tracking-wide">
-            56
-          </p>
-        </div>
+      <section className="flex flex-wrap justify-center gap-6 mt-10">
+        {[
+          { title: "Total Grains Collected", value: "2,345 kg", color: "text-green-500" },
+          { title: "Centers Supported", value: "18", color: "text-blue-600" },
+          { title: "Volunteers Active", value: "56", color: "text-yellow-500" },
+        ].map((stat, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-md rounded-2xl w-72 sm:w-80 p-6 text-center border border-gray-100 hover:shadow-lg transition-all"
+          >
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">{stat.title}</h2>
+            <p className={`text-3xl font-extrabold ${stat.color} tracking-wide`}>
+              {stat.value}
+            </p>
+          </div>
+        ))}
       </section>
 
-      {/* CHARTS */}
-      <section className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto mt-16 px-6">
-        {/* Bar Chart */}
+      {/* CHARTS SECTION */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 max-w-6xl mx-auto">
+        {/* BAR CHART */}
         <div className="bg-gray-50 p-6 rounded-2xl shadow-md border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-4">
             Monthly Grain Collection vs Distribution
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -105,9 +93,9 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Line Chart */}
+        {/* LINE CHART */}
         <div className="bg-gray-50 p-6 rounded-2xl shadow-md border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-4">
             Growth in Grain Collection
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -128,10 +116,11 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {/* PIE + TABLE */}
-      <section className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto mt-16 px-6">
+      {/* PIE CHART + TABLE */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 max-w-6xl mx-auto">
+        {/* PIE CHART */}
         <div className="bg-gray-50 p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col items-center">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-4">
             Current Stock Composition
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -153,11 +142,12 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-gray-50 p-6 rounded-2xl shadow-md border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+        {/* RECENT COLLECTIONS TABLE */}
+        <div className="bg-gray-50 p-6 rounded-2xl shadow-md border border-gray-100 overflow-x-auto">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-4">
             Recent Collections
           </h3>
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse text-sm sm:text-base">
             <thead>
               <tr className="bg-gray-200 text-gray-700">
                 <th className="py-2 px-3 rounded-tl-lg">Location</th>
