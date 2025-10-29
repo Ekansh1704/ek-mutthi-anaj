@@ -7,7 +7,7 @@ import WhoWeAre from "./pages/WhoWeAre";
 import WhatWeDo from "./pages/WhatWeDo";
 import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
-import Contact from "./pages/Contact";
+import ContactUs from "./pages/ContactUs";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
         <Route path="/what-we-do" element={<WhatWeDo />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/analytics" element={<Analytics />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/contact" element={<ContactUs />} />
 
         {/* Catch-all for invalid routes */}
         <Route path="*" element={<NotFound />} />
