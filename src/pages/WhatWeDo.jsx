@@ -1,167 +1,139 @@
+// src/pages/WhatWeDo.jsx
 import React from "react";
 import { motion } from "framer-motion";
 
 const WhatWeDo = () => {
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const testimonials = [
+    {
+      text: "This initiative has grown into a social revolution. Feeding over 700 people a day is just the beginning—we’re aiming to reach institutions across Maharashtra.",
+      name: "— Vinod Patil",
+    },
+    {
+      text: "An idea as small as a handful of grain has sparked tonnes of generosity. It’s proof of how collective empathy transforms into impact.",
+      name: "— Abhay Baviskar",
+    },
+    {
+      text: "Transparency is the foundation of trust. The committee’s commitment to ethical distribution has earned us the community’s deep respect.",
+      name: "— Keshav Joshi",
+    },
+    {
+      text: "From 4 societies to 21 in Wakad alone, the wave of participation shows this movement touches hearts.",
+      name: "— Abhijeet Chaudhary",
+    },
+    {
+      text: "Month after month, 32,000+ families join us in giving. The committee is inspired by their belief and moved to expand further.",
+      name: "— Aniket Deshmukh",
+    },
+    {
+      text: "Every collection feels like a celebration. It uplifts us and reminds our team what service truly means.",
+      name: "— Prasad Padgavkar",
+    },
+  ];
+
   return (
     <div className="bg-white text-gray-800 overflow-x-hidden">
-
-      {/* HERO SECTION */}
+      {/* ✅ HERO SECTION */}
       <section
-        className="relative h-[70vh] md:h-[80vh] flex items-center justify-center bg-cover bg-center mt-[72px]"
+        className="relative h-[80vh] flex items-center justify-center bg-cover bg-center mt-[72px]"
         style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL}/what-we-do-bg.jpg)`,
+          backgroundImage: `url(${process.env.PUBLIC_URL}/what-we-do-bg1.jpeg)`,
         }}
       >
-        <div className="absolute inset-0 bg-black bg-opacity-50" />
-        <div className="relative z-10 text-center px-6 md:px-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-snug drop-shadow-lg">
+        <div className="absolute inset-0 bg-black/20" />
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 1 }}
+          className="relative z-10 text-center px-6 md:px-10"
+        >
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
             What We Do
           </h1>
-          <p className="text-base md:text-xl text-gray-100 max-w-2xl mx-auto">
-            Every grain counts. Every act of kindness matters.  
+          <p className="text-base md:text-xl text-gray-100 max-w-2xl mx-auto leading-relaxed">
+            Every grain counts. Every act of kindness matters. <br />
             Ek Mutthi Anaj bridges hearts through food and compassion.
           </p>
-        </div>
+        </motion.div>
       </section>
 
-      {/* MISSION SECTION */}
-      <section className="py-16 md:py-20 px-6 md:px-16 bg-gray-50">
-        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-          <motion.img
-            whileHover={{ scale: 1.03 }}
-            src={`${process.env.PUBLIC_URL}/mission-team.png`}
-            alt="Ek Mutthi Anaj Mission Team"
-            className="rounded-3xl shadow-xl w-full h-auto object-cover"
-          />
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-700 mb-6">
-              Our Mission
-            </h2>
-            <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-              Ek Mutthi Anaj aims to ensure that no one sleeps hungry.  
-              We collect small contributions of food grains from individuals, societies, and institutions, 
-              and channel them towards orphanages, old-age homes, and shelters that need support.  
-              Through our collective efforts, we bring the spirit of sharing to life.
-            </p>
-          </div>
-        </div>
+      {/* 🌿 INTRODUCTION */}
+      <section className="py-20 px-6 md:px-16 bg-gray-50">
+        <motion.div
+          variants={fadeUp}
+          whileInView="visible"
+          initial="hidden"
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto text-center"
+        >
+          <p className="text-lg md:text-xl leading-relaxed text-gray-700">
+            At <b>Ek Mutthi Anaj</b>, our purpose is simple yet powerful — to
+            ensure that no one sleeps hungry. We collect surplus grains and food
+            from individuals, communities, schools, and corporates, and
+            redistribute them to those who need it the most — orphanages,
+            old-age homes, and shelters.
+          </p>
+        </motion.div>
       </section>
 
-      {/* HISTORY SECTION */}
-      <section className="py-16 md:py-20 px-6 md:px-16 bg-white">
-        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-          <motion.img
-            whileHover={{ scale: 1.03 }}
-            src={`${process.env.PUBLIC_URL}/history-img.png`}
-            alt="History of Ek Mutthi Anaj"
-            className="rounded-3xl shadow-lg w-full h-auto object-cover order-last md:order-first"
-          />
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-700 mb-6">
-              Our History
-            </h2>
-            <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-              The Ek Mutthi Anaj campaign, launched in 2007, is a growing movement rooted in the spirit of compassion.  
-              Traditionally, people in India would set aside a portion of their daily food or grain to feed a Fakir, Sadhu, Bhikshu, or even an animal that came to their doorstep.  
-              Ek Mutthi Anaj brings back this timeless practice in a modern, organized way — partnering with schools, communities, and corporations to collect grains that are distributed to community kitchens and homes in need.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* WHO CAN JOIN */}
-      <section className="py-16 md:py-20 bg-gray-50 px-6 md:px-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-12">
-          Who All Can Join In?
-        </h2>
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-6xl mx-auto">
-          {[
-            {
-              title: "Corporates",
-              desc: "Corporates looking to invest in transparent CSR initiatives that guarantee a huge and direct impact on society.",
-              img: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-              title: "Schools",
-              desc: "Schools mold future generations. Encouraging students to participate instills values of sharing and caring.",
-              img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-              title: "Communities",
-              desc: "Housing societies and local groups can organize drives to support those in need within their neighborhoods.",
-              img: "https://images.unsplash.com/photo-1603570419874-32843e9b2fdb?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-              title: "Individuals",
-              desc: "Every grain matters. Whether it’s one meal or one sack of grain — your contribution makes a difference.",
-              img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
-            },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ scale: 1.03 }}
-              className="bg-white p-6 md:p-8 rounded-3xl shadow-md flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left"
-            >
-              <img
-                src={item.img}
-                alt={item.title}
-                className="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover shadow-md"
-              />
-              <div>
-                <h3 className="text-xl md:text-2xl font-semibold text-blue-600 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-gray-700 text-sm md:text-base">
-                  {item.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section className="py-16 md:py-20 bg-white px-6 md:px-16 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-blue-700 mb-12">
+      {/* 🔄 HOW IT WORKS */}
+      <section className="py-20 px-6 md:px-16 bg-white text-center">
+        <motion.h2
+          variants={fadeUp}
+          whileInView="visible"
+          initial="hidden"
+          transition={{ duration: 0.8 }}
+          className="text-3xl md:text-4xl font-bold text-primary mb-12"
+        >
           How It Works
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 max-w-6xl mx-auto">
+        </motion.h2>
+
+        <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             {
               title: "Collection",
-              desc: "We gather grains from households and societies through our volunteers.",
-              img: "https://images.unsplash.com/photo-1590080875833-50a94c41b223?auto=format&fit=crop&w=800&q=80",
+              desc: "We collect surplus food grains through volunteers, local societies, and corporate drives.",
+              img: `${process.env.PUBLIC_URL}/collection.jpeg`,
             },
             {
               title: "Sorting & Storage",
-              desc: "All collected grains are sorted, weighed, and stored systematically.",
-              img: "https://images.unsplash.com/photo-1581092334440-4c06e1a8b3d3?auto=format&fit=crop&w=800&q=80",
+              desc: "Collected grains are cleaned, sorted, and stored hygienically by our team.",
+              img: `${process.env.PUBLIC_URL}/sorting&storage1.jpeg`,
             },
             {
               title: "Distribution",
-              desc: "Our team distributes grains to partner NGOs, orphanages, and old-age homes.",
-              img: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80",
+              desc: "Our volunteers deliver the grains to verified NGOs, orphanages, and old-age homes.",
+              img: `${process.env.PUBLIC_URL}/distribution.jpeg`,
             },
             {
               title: "Nourishment",
-              desc: "Thousands benefit from the meals made possible by collective generosity.",
-              img: "https://images.unsplash.com/photo-1601050690597-df4a7f8cbf63?auto=format&fit=crop&w=800&q=80",
+              desc: "Every contribution helps ensure that families and children don’t go to bed hungry.",
+              img: `${process.env.PUBLIC_URL}/nourishment1.jpeg`,
             },
-          ].map((step, index) => (
+          ].map((step, i) => (
             <motion.div
-              key={index}
+              key={i}
+              variants={fadeUp}
+              whileInView="visible"
+              initial="hidden"
+              transition={{ duration: 0.6, delay: i * 0.1 }}
               whileHover={{ scale: 1.05 }}
-              className="bg-gray-50 rounded-2xl shadow-md p-5 md:p-6"
+              className="bg-blue-50 rounded-2xl p-6 shadow-md hover:shadow-lg transition text-center"
             >
               <img
                 src={step.img}
                 alt={step.title}
-                className="rounded-xl mb-4 h-44 md:h-48 w-full object-cover"
+                className="rounded-xl mb-4 h-44 md:h-52 w-full object-cover"
               />
-              <h3 className="text-lg md:text-xl font-semibold text-blue-600 mb-2">
+              <h3 className="text-xl font-semibold text-primary mb-2">
                 {step.title}
               </h3>
-              <p className="text-gray-600 text-sm md:text-base">
+              <p className="text-gray-700 text-sm md:text-base">
                 {step.desc}
               </p>
             </motion.div>
@@ -169,64 +141,155 @@ const WhatWeDo = () => {
         </div>
       </section>
 
-      {/* IMPACT SECTION */}
-      <section className="py-16 md:py-20 bg-gradient-to-r from-blue-700 to-blue-500 text-white text-center px-6">
-        <h2 className="text-3xl md:text-4xl font-bold mb-10">Our Impact</h2>
-        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      {/* 🤝 WHO CAN JOIN */}
+      <section className="py-20 bg-gray-50 px-6 md:px-16">
+        <motion.h2
+          variants={fadeUp}
+          whileInView="visible"
+          initial="hidden"
+          transition={{ duration: 0.8 }}
+          className="text-3xl md:text-4xl font-bold text-primary text-center mb-12"
+        >
+          Who Can Join?
+        </motion.h2>
+
+        <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
-            { number: "5000+", label: "Kg Grains Collected" },
-            { number: "20+", label: "Homes & Orphanages Supported" },
-            { number: "1000+", label: "Volunteers Engaged" },
-          ].map((stat, i) => (
+            {
+              title: "Corporates",
+              desc: "Partner with us through your CSR initiatives to create sustainable social impact.",
+              img: `${process.env.PUBLIC_URL}/corporates.png`,
+            },
+            {
+              title: "Schools",
+              desc: "Help students learn empathy and responsibility through food donation drives.",
+              img: `${process.env.PUBLIC_URL}/schools.png`,
+            },
+            {
+              title: "Communities",
+              desc: "Housing societies can set up collection bins to donate grains regularly.",
+              img: `${process.env.PUBLIC_URL}/communities.jpeg`,
+            },
+            {
+              title: "Individuals",
+              desc: "Anyone can contribute a handful of grains and help feed someone in need.",
+              img: `${process.env.PUBLIC_URL}/individuals.jpeg`,
+            },
+          ].map((item, i) => (
             <motion.div
               key={i}
-              whileHover={{ scale: 1.08 }}
-              className="bg-white/10 p-6 md:p-8 rounded-2xl shadow-md backdrop-blur-md"
+              variants={fadeUp}
+              whileInView="visible"
+              initial="hidden"
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+              className="bg-white rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition"
             >
-              <h3 className="text-4xl md:text-5xl font-bold mb-3">{stat.number}</h3>
-              <p className="text-base md:text-lg">{stat.label}</p>
+              <img
+                src={item.img}
+                alt={item.title}
+                className="w-24 h-24 rounded-full mx-auto mb-4 object-cover shadow-md border-2 border-primary/40"
+              />
+              <h3 className="text-xl font-semibold text-primary mb-2">
+                {item.title}
+              </h3>
+              <p className="text-gray-700 text-sm md:text-base">
+                {item.desc}
+              </p>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* GALLERY */}
-      <section className="py-16 md:py-20 px-6 md:px-16 bg-gray-50">
-        <h2 className="text-3xl md:text-4xl font-bold text-blue-700 text-center mb-12">
-          Moments of Service
+      {/* 💬 TESTIMONIALS */}
+      <section className="py-24 bg-white text-center px-6 md:px-16">
+        <motion.h2
+          variants={fadeUp}
+          whileInView="visible"
+          initial="hidden"
+          transition={{ duration: 0.8 }}
+          className="text-3xl md:text-4xl font-bold text-primary mb-12"
+        >
+          Voices of Change
+        </motion.h2>
+
+        <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((t, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              whileInView="visible"
+              initial="hidden"
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              whileHover={{ scale: 1.03 }}
+              className="bg-gray-50 p-6 rounded-2xl shadow-md text-left italic"
+            >
+              <p className="text-gray-700 mb-4">“{t.text}”</p>
+              <p className="font-semibold text-primary">{t.name}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 🗺️ MAP SECTION */}
+      <section className="py-24 bg-gray-50 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+          Spreading Nourishment Across Pune
         </h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <p className="text-gray-700 max-w-2xl mx-auto mb-10">
+          From Kothrud to Hadapsar, from Shivajinagar to Wakad — our reach continues to expand across Pune.
+          Every pin on the map marks a story of shared compassion.
+        </p>
+        <div className="max-w-4xl mx-auto">
+          <img
+            src={`${process.env.PUBLIC_URL}/Pune.png`}
+            alt="Map of Maharashtra"
+            className="rounded-2xl shadow-lg w-full object-cover"
+          />
+        </div>
+      </section>
+
+      {/* 📸 IN ACTION */}
+      <section className="py-20 px-6 md:px-16 bg-white text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-12">
+          In Action
+        </h2>
+
+        <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[
-            "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1525253086316-d0c936c814f8?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1526318472351-bc6c2cb12c7c?auto=format&fit=crop&w=800&q=80",
-          ].map((img, i) => (
+            `${process.env.PUBLIC_URL}/gallery1.jpeg`,
+            `${process.env.PUBLIC_URL}/gallery2.jpeg`,
+            `${process.env.PUBLIC_URL}/gallery3.jpeg`,
+            `${process.env.PUBLIC_URL}/gallery4.jpeg`,
+            `${process.env.PUBLIC_URL}/gallery5.jpeg`,
+            `${process.env.PUBLIC_URL}/gallery6.jpeg`,
+          ].map((src, i) => (
             <motion.img
               key={i}
-              whileHover={{ scale: 1.05 }}
-              src={img}
-              alt="Gallery"
-              className="rounded-2xl shadow-md object-cover h-56 md:h-64 w-full"
+              variants={fadeUp}
+              whileInView="visible"
+              initial="hidden"
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              src={src}
+              alt={`Gallery ${i + 1}`}
+              className="rounded-xl shadow-lg object-cover w-full h-64 hover:scale-105 transition"
             />
           ))}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-14 md:py-16 bg-blue-700 text-center text-white px-6">
-        <h2 className="text-2xl md:text-4xl font-semibold mb-4">
-          Join Us in Making a Difference
+      {/* 🌻 CTA */}
+      <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white text-center">
+        <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+          Join the Movement
         </h2>
-        <p className="text-gray-100 mb-6 md:mb-8 max-w-2xl mx-auto text-sm md:text-base">
-          Together, we can make sure no one goes to bed hungry.  
-          Be part of the Ek Mutthi Anaj movement today.
+        <p className="text-gray-100 max-w-2xl mx-auto mb-8">
+          Together, we can ensure no one goes to bed hungry.{" "}
+          <b>Be part of Ek Mutthi Anaj</b> — every handful counts.
         </p>
         <a
           href="/contact"
-          className="px-6 md:px-8 py-3 bg-yellow-400 text-blue-900 font-semibold rounded-full shadow-md hover:bg-yellow-300 transition"
+          className="bg-white text-primary px-8 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100 transition"
         >
           Get Involved
         </a>

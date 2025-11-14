@@ -1,47 +1,144 @@
 // src/App.js
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { db } from "./firebaseConfig";
+
+// Components
 import Navbar from "./components/Navbar";
+import HeroSection from "./components/HeroSection";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Pages
 import WhoWeAre from "./pages/WhoWeAre";
 import WhatWeDo from "./pages/WhatWeDo";
+import OurImpact from "./pages/OurImpact";
+import Volunteer from "./pages/Volunteer";
 import Dashboard from "./pages/Dashboard";
-import Analytics from "./pages/Analytics";
+import AdminDashboard from "./pages/AdminDashboard";
+import SocietyDashboard from "./pages/SocietyDashboard";
+import PartnerDashboard from "./pages/PartnerDashboard";
 import ContactUs from "./pages/ContactUs";
 import NotFound from "./pages/NotFound";
+import AdminAddData from "./pages/AdminAddData";
+import Login from "./pages/Login";
+import Donate from "./pages/Donate";
+import DonationSuccess from "./pages/DonationSuccess";
 
-function App() {
+// ✅ Protected Route Wrapper
+const ProtectedRoute = ({ children, role, currentUser }) => {
+  if (!currentUser) return <Navigate to="/login" replace />;
+
+  if (role && currentUser.role !== role) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+};
+
+// ✅ Layout Component
+const Layout = ({ currentUser }) => {
+  const location = useLocation();
+  const showHero = location.pathname === "/what-we-do";
+
   return (
-    // ✅ Responsive background + smooth color transitions
-    <div className="min-h-screen bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 flex flex-col">
-      {/* ✅ Navbar stays fixed and adapts on small screens */}
+    <div className="min-h-screen flex flex-col bg-[#FFF8E1] text-[#4E342E] transition-colors duration-300">
       <Navbar />
+      <ScrollToTop />
 
-      {/* ✅ Padding top to prevent content hiding behind fixed navbar */}
-      <main className="flex-1 pt-16 px-4 md:px-8">
+      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
+        {showHero && <HeroSection />}
+
         <Routes>
-          {/* Default redirect to What We Do */}
+          {/* Default Redirect */}
           <Route path="/" element={<Navigate to="/what-we-do" replace />} />
 
-          {/* Main Pages */}
+          {/* 🌾 Public Pages */}
           <Route path="/who-we-are" element={<WhoWeAre />} />
           <Route path="/what-we-do" element={<WhatWeDo />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/impact" element={<OurImpact />} />
+          <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route path="/donation-success" element={<DonationSuccess />} />
+          <Route path="/login" element={<Login />} />
 
-          {/* Catch-all for invalid routes */}
+          {/* 🌾 Common Dashboard Page */}
+          <Route path="/dashboard" element={<Dashboard />} />
+
+          {/* 🌾 Role-Based Dashboards */}
+          <Route
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute role="admin" currentUser={currentUser}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/society/:societyId"
+            element={
+              <ProtectedRoute role="society" currentUser={currentUser}>
+                <SocietyDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/partner-dashboard"
+            element={
+              <ProtectedRoute role="partner" currentUser={currentUser}>
+                <PartnerDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 🌾 Admin Add Data */}
+          <Route
+            path="/admin-add-data"
+            element={
+              <ProtectedRoute role="admin" currentUser={currentUser}>
+                <AdminAddData />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 🌾 404 Page */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 
-      {/* ✅ Simple footer for completeness */}
-      <footer className="text-center py-4 text-sm text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 mt-8">
-        © {new Date().getFullYear()} Ek Mutthi Anaj | All Rights Reserved
-      </footer>
+      <Footer />
     </div>
   );
-}
+};
+
+// 🌾 App Component
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // ✅ Load user info from localStorage (on mount + whenever it changes)
+  const loadUser = () => {
+    const username = localStorage.getItem("loggedInUser");
+    const role = localStorage.getItem("userRole");
+
+    if (username && role) {
+      setCurrentUser({ username, role });
+    } else {
+      setCurrentUser(null);
+    }
+  };
+
+  useEffect(() => {
+    loadUser();
+
+    // ✅ Listen for localStorage updates (when Login.jsx updates it)
+    window.addEventListener("storage", loadUser);
+    return () => window.removeEventListener("storage", loadUser);
+  }, []);
+
+  return <Layout currentUser={currentUser} />;
+};
 
 export default App;

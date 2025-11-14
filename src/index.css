@@ -2,3 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 🌿 Global Styles — Ek Mutthi Anaj Theme */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    /* Soft warm beige background + smooth transitions */
+    @apply bg-[#FFF8E7] text-[#3D3D3D] font-sans antialiased transition-colors duration-300 ease-in-out;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    /* Slightly darker text for headings */
+    @apply font-display text-[#333333] font-semibold;
+  }
+
+  p {
+    /* Softer gray text for paragraphs */
+    @apply text-[#4B4B4B] leading-relaxed;
+  }
+
+  a {
+    /* NGO theme orange link color */
+    @apply text-[#FF8C00] hover:text-[#E07B00] transition-colors duration-200 ease-in-out;
+  }
+
+  /* Buttons and interactive elements */
+  button {
+    @apply bg-[#FF8C00] text-white font-medium px-4 py-2 rounded-xl shadow-md hover:bg-[#E07B00] transition-all duration-300 ease-in-out;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-2xl shadow-md p-6 transition-shadow hover:shadow-lg;
+  }
+
+  /* Section titles */
+  .section-title {
+    @apply text-3xl font-bold text-[#FF8C00] mb-4;
+  }
+
+  /* Subtle fade-in animation */
+  .fade-in {
+    animation: fadeIn 0.8s ease-in-out both;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 🌾 Fixed missing local images with online placeholders */
+
+  /* Hero background pattern — subtle texture */
+  .hero-pattern {
+    background-image: url("https://images.unsplash.com/photo-1542831371-d531d36971e6?auto=format&fit=crop&w=1200&q=80");
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Mission section background — people/team vibe */
+  .mission-bg {
+    background-image: url("https://images.unsplash.com/photo-1522204501921-573e2d8bd6a2?auto=format&fit=crop&w=1200&q=80");
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* ✨ Extra Utilities */
+@layer utilities {
+  .container-default {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#FF8C00] to-[#FFD54F];
+  }
+
+  /* Background theme helpers */
+  .bg-theme-light {
+    @apply bg-[#FFF8E7];
+  }
+
+  .bg-theme-accent {
+    @apply bg-[#FFF3D6];
+  }
+
+  .bg-theme-card {
+    @apply bg-white shadow-md rounded-2xl;
+  }
+
+  /* Text color helpers */
+  .text-primary {
+    @apply text-[#FF8C00];
+  }
+
+  .text-secondary {
+    @apply text-[#4B4B4B];
+  }
+
+  .text-accent {
+    @apply text-[#E07B00];
+  }
+}
