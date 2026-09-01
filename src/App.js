@@ -1,29 +1,36 @@
 // src/App.js
-import React, { useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { db } from "./firebaseConfig";
 
-// Components
+// Components (small, always needed for the app shell — kept as regular imports)
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
-// Pages
-import WhoWeAre from "./pages/WhoWeAre";
-import WhatWeDo from "./pages/WhatWeDo";
-import OurImpact from "./pages/OurImpact";
-import Volunteer from "./pages/Volunteer";
-import Dashboard from "./pages/Dashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import SocietyDashboard from "./pages/SocietyDashboard";
-import PartnerDashboard from "./pages/PartnerDashboard";
-import ContactUs from "./pages/ContactUs";
-import NotFound from "./pages/NotFound";
-import AdminAddData from "./pages/AdminAddData";
-import Login from "./pages/Login";
-import Donate from "./pages/Donate";
-import DonationSuccess from "./pages/DonationSuccess";
+// Pages — lazy-loaded so each route's code (and heavy deps like leaflet/recharts
+// used only by the dashboards) is downloaded on demand instead of all up front.
+const WhoWeAre = lazy(() => import("./pages/WhoWeAre"));
+const WhatWeDo = lazy(() => import("./pages/WhatWeDo"));
+const OurImpact = lazy(() => import("./pages/OurImpact"));
+const Volunteer = lazy(() => import("./pages/Volunteer"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const SocietyDashboard = lazy(() => import("./pages/SocietyDashboard"));
+const PartnerDashboard = lazy(() => import("./pages/PartnerDashboard"));
+const ContactUs = lazy(() => import("./pages/ContactUs"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const AdminAddData = lazy(() => import("./pages/AdminAddData"));
+const Login = lazy(() => import("./pages/Login"));
+const Donate = lazy(() => import("./pages/Donate"));
+const DonationSuccess = lazy(() => import("./pages/DonationSuccess"));
+
+// ✅ Simple full-page fallback shown while a route chunk downloads
+const PageLoader = () => (
+  <div className="flex items-center justify-center py-24">
+    <div className="h-10 w-10 rounded-full border-4 border-[#FFD9A0] border-t-[#FF8C00] animate-spin" />
+  </div>
+);
 
 // ✅ Protected Route Wrapper
 const ProtectedRoute = ({ children, role, currentUser }) => {
@@ -49,64 +56,66 @@ const Layout = ({ currentUser }) => {
       <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
         {showHero && <HeroSection />}
 
-        <Routes>
-          {/* Default Redirect */}
-          <Route path="/" element={<Navigate to="/what-we-do" replace />} />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Default Redirect */}
+            <Route path="/" element={<Navigate to="/what-we-do" replace />} />
 
-          {/* 🌾 Public Pages */}
-          <Route path="/who-we-are" element={<WhoWeAre />} />
-          <Route path="/what-we-do" element={<WhatWeDo />} />
-          <Route path="/impact" element={<OurImpact />} />
-          <Route path="/volunteer" element={<Volunteer />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/donate" element={<Donate />} />
-          <Route path="/donation-success" element={<DonationSuccess />} />
-          <Route path="/login" element={<Login />} />
+            {/* 🌾 Public Pages */}
+            <Route path="/who-we-are" element={<WhoWeAre />} />
+            <Route path="/what-we-do" element={<WhatWeDo />} />
+            <Route path="/impact" element={<OurImpact />} />
+            <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/donate" element={<Donate />} />
+            <Route path="/donation-success" element={<DonationSuccess />} />
+            <Route path="/login" element={<Login />} />
 
-          {/* 🌾 Common Dashboard Page */}
-          <Route path="/dashboard" element={<Dashboard />} />
+            {/* 🌾 Common Dashboard Page */}
+            <Route path="/dashboard" element={<Dashboard />} />
 
-          {/* 🌾 Role-Based Dashboards */}
-          <Route
-            path="/admin-dashboard"
-            element={
-              <ProtectedRoute role="admin" currentUser={currentUser}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
+            {/* 🌾 Role-Based Dashboards */}
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRoute role="admin" currentUser={currentUser}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/society/:societyId"
-            element={
-              <ProtectedRoute role="society" currentUser={currentUser}>
-                <SocietyDashboard />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/society/:societyId"
+              element={
+                <ProtectedRoute role="society" currentUser={currentUser}>
+                  <SocietyDashboard />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/partner-dashboard"
-            element={
-              <ProtectedRoute role="partner" currentUser={currentUser}>
-                <PartnerDashboard />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/partner-dashboard"
+              element={
+                <ProtectedRoute role="partner" currentUser={currentUser}>
+                  <PartnerDashboard />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* 🌾 Admin Add Data */}
-          <Route
-            path="/admin-add-data"
-            element={
-              <ProtectedRoute role="admin" currentUser={currentUser}>
-                <AdminAddData />
-              </ProtectedRoute>
-            }
-          />
+            {/* 🌾 Admin Add Data */}
+            <Route
+              path="/admin-add-data"
+              element={
+                <ProtectedRoute role="admin" currentUser={currentUser}>
+                  <AdminAddData />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* 🌾 404 Page */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* 🌾 404 Page */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </main>
 
       <Footer />

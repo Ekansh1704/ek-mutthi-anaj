@@ -32,83 +32,26 @@
   button {
     @apply bg-[#FF8C00] text-white font-medium px-4 py-2 rounded-xl shadow-md hover:bg-[#E07B00] transition-all duration-300 ease-in-out;
   }
-
-  /* Cards */
-  .card {
-    @apply bg-white rounded-2xl shadow-md p-6 transition-shadow hover:shadow-lg;
-  }
-
-  /* Section titles */
-  .section-title {
-    @apply text-3xl font-bold text-[#FF8C00] mb-4;
-  }
-
-  /* Subtle fade-in animation */
-  .fade-in {
-    animation: fadeIn 0.8s ease-in-out both;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* 🌾 Fixed missing local images with online placeholders */
-
-  /* Hero background pattern — subtle texture */
-  .hero-pattern {
-    background-image: url("https://images.unsplash.com/photo-1542831371-d531d36971e6?auto=format&fit=crop&w=1200&q=80");
-    background-size: cover;
-    background-position: center;
-  }
-
-  /* Mission section background — people/team vibe */
-  .mission-bg {
-    background-image: url("https://images.unsplash.com/photo-1522204501921-573e2d8bd6a2?auto=format&fit=crop&w=1200&q=80");
-    background-size: cover;
-    background-position: center;
-  }
 }
 
 /* ✨ Extra Utilities */
 @layer utilities {
-  .container-default {
-    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#FF8C00] to-[#FFD54F];
-  }
-
-  /* Background theme helpers */
-  .bg-theme-light {
-    @apply bg-[#FFF8E7];
-  }
-
-  .bg-theme-accent {
-    @apply bg-[#FFF3D6];
-  }
-
-  .bg-theme-card {
-    @apply bg-white shadow-md rounded-2xl;
-  }
-
-  /* Text color helpers */
+  /* NOTE: tailwind.config.js already defines `primary` (#FF8C00) and
+     `secondary` (#E07B00) as theme colors, which auto-generates
+     text-primary/bg-primary/text-secondary/bg-secondary etc. The two
+     helpers below duplicate that for text-primary/text-secondary with
+     hand-picked values (text-secondary here is a neutral gray, #4B4B4B,
+     not the theme's orange secondary) and currently win the cascade
+     because they're declared after `@tailwind utilities`. Kept as-is to
+     avoid changing how existing text-secondary usages render — but worth
+     deciding intentionally whether "secondary text" should be gray or
+     orange, and consolidating into tailwind.config.js either way.
+  */
   .text-primary {
     @apply text-[#FF8C00];
   }
 
   .text-secondary {
     @apply text-[#4B4B4B];
-  }
-
-  .text-accent {
-    @apply text-[#E07B00];
   }
 }

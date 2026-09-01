@@ -1,15 +1,9 @@
 // src/pages/Dashboard.jsx
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { db } from "../firebaseConfig";
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  limit,
-} from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import {
   BarChart,
   Bar,
@@ -22,23 +16,29 @@ import {
   Cell,
   Legend,
 } from "recharts";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { Loader2 } from "lucide-react";
 
-// leaflet icon fix for many bundlers
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-});
+// Leaflet (map) is a heavy dependency used only here, so it's split into its
+// own chunk and lazy-loaded — the stats/charts above it can paint immediately
+// instead of waiting on the map library to download.
+const PuneMap = lazy(() => import("../components/PuneMap"));
 
 const COLORS = ["#4b6043", "#FF8C00", "#E07B00", "#A55EEA", "#FF6B6B", "#00C49F"];
+
+// area -> coords fallback map (Pune). Module-level since it's static data that
+// doesn't depend on props/state — keeping it inside the component recreated
+// a new object on every render, which silently broke the markers useMemo below.
+const AREA_COORDS = {
+  Kothrud: [18.4841, 73.839],
+  Hinjewadi: [18.5975, 73.7314],
+  Wakad: [18.5943, 73.7647],
+  Aundh: [18.5544, 73.8129],
+  "Pimple Saudagar": [18.5984, 73.7806],
+  Hadapsar: [18.5061, 73.9333],
+  "Koregaon Park": [18.5427, 73.9145],
+  Bavdhan: [18.5187, 73.7992],
+  Baner: [18.5635, 73.7883],
+  Shivajinagar: [18.5204, 73.8567],
+};
 
 /**
  * Dashboard for Ek Mutthi Anaj - Public view
@@ -72,20 +72,6 @@ const Dashboard = () => {
   const [displayNGOsCount, setDisplayNGOsCount] = useState(0);
   const [displayVolunteers, setDisplayVolunteers] = useState(0);
 
-  // area -> coords fallback map (Pune)
-  const AREA_COORDS = {
-    Kothrud: [18.4841, 73.839],
-    Hinjewadi: [18.5975, 73.7314],
-    Wakad: [18.5943, 73.7647],
-    Aundh: [18.5544, 73.8129],
-    "Pimple Saudagar": [18.5984, 73.7806],
-    Hadapsar: [18.5061, 73.9333],
-    "Koregaon Park": [18.5427, 73.9145],
-    Bavdhan: [18.5187, 73.7992],
-    Baner: [18.5635, 73.7883],
-    Shivajinagar: [18.5204, 73.8567],
-  };
-
   // helper: simple count-up animation (no external lib)
   const animateCount = (target, setter, ms = 700) => {
     if (!target || target === 0) {
@@ -109,43 +95,47 @@ const Dashboard = () => {
     }, stepTime);
   };
 
-  // fetch Firestore data
+  // fetch Firestore data — run all three reads concurrently instead of
+  // one-after-another, since they don't depend on each other. This alone
+  // cuts the network waterfall on this page from ~3 round trips to ~1.
   useEffect(() => {
+    const fetchCollections = async () => {
+      const colRef = collection(db, "collections");
+      const colSnap = await getDocs(query(colRef, orderBy("timestamp", "desc")));
+      const docs = [];
+      colSnap.forEach((d) => docs.push({ id: d.id, ...d.data() }));
+      return docs;
+    };
+
+    const fetchPartners = async () => {
+      // optional collection — fall back to an empty list if it fails/doesn't exist
+      try {
+        const pSnap = await getDocs(collection(db, "partners"));
+        const names = new Set();
+        pSnap.forEach((p) => names.add(p.data().name || p.id));
+        return Array.from(names);
+      } catch (err) {
+        return [];
+      }
+    };
+
+    const fetchVolunteerCount = async () => {
+      // optional collection — fall back to null (rendered as "—") if it fails/doesn't exist
+      try {
+        const vSnap = await getDocs(collection(db, "volunteers"));
+        return vSnap.empty ? null : vSnap.size;
+      } catch (err) {
+        return null;
+      }
+    };
+
     const fetchAll = async () => {
       try {
-        // collections
-        const colRef = collection(db, "collections");
-        const colSnap = await getDocs(query(colRef, orderBy("timestamp", "desc")));
-        const docs = [];
-        colSnap.forEach((d) => docs.push({ id: d.id, ...d.data() }));
-
-        // partners (optional)
-        const partnersRef = collection(db, "partners");
-        let partners = [];
-        try {
-          const pSnap = await getDocs(partnersRef);
-          const setP = new Set();
-          pSnap.forEach((p) => {
-            const data = p.data();
-            const name = data.name || p.id;
-            setP.add(name);
-          });
-          partners = Array.from(setP);
-        } catch (err) {
-          partners = [];
-        }
-
-        // volunteers (optional)
-        let volunteers = null;
-        try {
-          const volRef = collection(db, "volunteers");
-          const vSnap = await getDocs(volRef);
-          if (!vSnap.empty) volunteers = vSnap.size;
-          else volunteers = null;
-        } catch (err) {
-          volunteers = null;
-        }
-
+        const [docs, partners, volunteers] = await Promise.all([
+          fetchCollections(),
+          fetchPartners(),
+          fetchVolunteerCount(),
+        ]);
         setCollectionDocs(docs);
         setPartnersList(partners);
         setVolunteerCount(volunteers);
@@ -389,20 +379,15 @@ const Dashboard = () => {
             <div className="mt-4">
               <h4 className="text-sm font-medium text-gray-700 mb-2">Pune Map</h4>
               <div className="h-[220px] rounded-xl overflow-hidden border border-gray-100">
-                <MapContainer center={puneCenter} zoom={mapZoom} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
-                  <TileLayer attribution='© OpenStreetMap contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  {markers.length > 0 &&
-                    markers.map((m, idx) => (
-                      <Marker key={idx} position={[m.lat, m.lng]}>
-                        <Popup>
-                          <div className="text-sm">
-                            <strong>{m.label}</strong>
-                            <div>{formatKg(m.kg)}</div>
-                          </div>
-                        </Popup>
-                      </Marker>
-                    ))}
-                </MapContainer>
+                <Suspense
+                  fallback={
+                    <div className="h-full w-full flex items-center justify-center bg-gray-50 text-gray-400 text-sm">
+                      Loading map…
+                    </div>
+                  }
+                >
+                  <PuneMap markers={markers} center={puneCenter} zoom={mapZoom} formatKg={formatKg} />
+                </Suspense>
               </div>
               <p className="text-xs text-gray-500 mt-2">Click pins to see area / society totals. Map centers on Pune.</p>
             </div>

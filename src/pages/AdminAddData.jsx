@@ -1,9 +1,12 @@
 // src/pages/AdminAddData.jsx
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { db } from "../firebaseConfig";
 import { collection, addDoc, getDocs, query, orderBy, limit } from "firebase/firestore";
 
 const AdminAddData = () => {
+  const navigate = useNavigate();
+
   // Form states
   const [month, setMonth] = useState("");
   const [collected, setCollected] = useState("");
@@ -46,31 +49,23 @@ const AdminAddData = () => {
     }
 
     try {
-      // 1️⃣ monthlyData collection
-      await addDoc(collection(db, "monthlyData"), {
-        month,
-        collected: Number(collected),
-        distributed: Number(distributed),
-        timestamp: new Date(),
-      });
-
-      // 2️⃣ stockData collection
-      await addDoc(collection(db, "stockData"), {
-        rice: Number(rice),
-        wheat: Number(wheat),
-        pulses: Number(pulses),
-        totalStock: Number(rice) + Number(wheat) + Number(pulses),
-        timestamp: new Date(),
-      });
-
-      // 3️⃣ recentCollections collection
-      await addDoc(collection(db, "recentCollections"), {
-        month,
-        collected: Number(collected),
-        distributed: Number(distributed),
-        date: new Date().toLocaleDateString(),
-        time: new Date().toLocaleTimeString(),
-      });
+      // Both documents are independent, so write them concurrently rather
+      // than waiting on one before starting the other.
+      await Promise.all([
+        addDoc(collection(db, "monthlyData"), {
+          month,
+          collected: Number(collected),
+          distributed: Number(distributed),
+          timestamp: new Date(),
+        }),
+        addDoc(collection(db, "stockData"), {
+          rice: Number(rice),
+          wheat: Number(wheat),
+          pulses: Number(pulses),
+          totalStock: Number(rice) + Number(wheat) + Number(pulses),
+          timestamp: new Date(),
+        }),
+      ]);
 
       // Reset form
       setMonth("");
@@ -92,8 +87,9 @@ const AdminAddData = () => {
 
   // 🔹 Logout button handler
   const handleLogout = () => {
-    localStorage.removeItem("isAdmin");
-    window.location.href = "/admin-login";
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("userRole");
+    navigate("/dashboard");
   };
 
   return (

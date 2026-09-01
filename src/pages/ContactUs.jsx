@@ -48,7 +48,7 @@ const ContactUs = () => {
       <section
         className="relative h-[70vh] flex items-center justify-center bg-cover bg-center mt-[72px]"
         style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL}/contact-bg.jpg)`,
+          backgroundImage: `url(${process.env.PUBLIC_URL}/contact-bg.webp)`,
         }}
       >
         <div className="absolute inset-0 bg-black/50" />

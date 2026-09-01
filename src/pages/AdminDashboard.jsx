@@ -34,21 +34,27 @@ const AdminDashboard = () => {
     activeSocieties: 0,
     locationsSupported: 0,
   });
-  const [recentCollections, setRecentCollections] = useState([]);
-  const [showRecent, setShowRecent] = useState(false);
   const [donations, setDonations] = useState([]);
   const [showDonations, setShowDonations] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // 🧩 New: Requests data (from all societies)
+  // 🧩 Requests data (from all societies)
   const [requests, setRequests] = useState([]);
   const [showRequests, setShowRequests] = useState(true);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // Monthly data
-        const monthlySnap = await getDocs(collection(db, "monthlyData"));
+        // Fire all four one-time reads together instead of awaiting them
+        // one-by-one — they're independent, so there's no reason to pay
+        // for four sequential round trips.
+        const [monthlySnap, stockSnap, societySnap, locationSnap] = await Promise.all([
+          getDocs(collection(db, "monthlyData")),
+          getDocs(collection(db, "stockData")),
+          getDocs(collection(db, "societies")),
+          getDocs(collection(db, "locations")),
+        ]);
+
         const monthly = [];
         let totalCollected = 0;
         let totalDistributed = 0;
@@ -64,14 +70,8 @@ const AdminDashboard = () => {
           totalDistributed += data.distributed || 0;
         });
 
-        // Stock Data
-        const stockSnap = await getDocs(collection(db, "stockData"));
         let latestStock = {};
         stockSnap.forEach((doc) => (latestStock = doc.data()));
-
-        // Societies and Locations
-        const societySnap = await getDocs(collection(db, "societies"));
-        const locationSnap = await getDocs(collection(db, "locations"));
 
         setSummary({
           totalCollected,
@@ -91,16 +91,6 @@ const AdminDashboard = () => {
     };
 
     fetchDashboardData();
-
-    // ✅ Real-time listener for Recent Collections
-    const qRecent = query(collection(db, "monthlyData"), orderBy("date", "desc"));
-    const unsubscribeRecent = onSnapshot(qRecent, (snapshot) => {
-      const recents = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setRecentCollections(recents.slice(0, 5));
-    });
 
     // ✅ Real-time listener for Donations
     const qDonations = query(collection(db, "donations"), orderBy("createdAt", "desc"));
@@ -123,7 +113,6 @@ const AdminDashboard = () => {
     });
 
     return () => {
-      unsubscribeRecent();
       unsubscribeDonations();
       unsubscribeRequests();
     };

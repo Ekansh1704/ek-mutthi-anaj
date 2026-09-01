@@ -14,6 +14,7 @@ const Footer = () => {
               <img
                 src={`${process.env.PUBLIC_URL}/seva-logo.png`}
                 alt="Ek Mutthi Anaj Logo"
+                loading="lazy"
                 className="h-12 w-12 object-contain transform scale-[0.9]"
                 style={{ objectPosition: "center" }}
                 onError={(e) =>
@@ -73,17 +74,18 @@ const Footer = () => {
           </h3>
           <div className="grid grid-cols-3 gap-2">
             {[
-              `${process.env.PUBLIC_URL}/gallery1.jpeg`,
-              `${process.env.PUBLIC_URL}/gallery2.jpeg`,
-              `${process.env.PUBLIC_URL}/gallery3.jpeg`,
-              `${process.env.PUBLIC_URL}/gallery4.jpeg`,
-              `${process.env.PUBLIC_URL}/gallery5.jpeg`,
-              `${process.env.PUBLIC_URL}/gallery6.jpeg`,
+              `${process.env.PUBLIC_URL}/gallery1.webp`,
+              `${process.env.PUBLIC_URL}/gallery2.webp`,
+              `${process.env.PUBLIC_URL}/gallery3.webp`,
+              `${process.env.PUBLIC_URL}/gallery4.webp`,
+              `${process.env.PUBLIC_URL}/gallery5.webp`,
+              `${process.env.PUBLIC_URL}/gallery6.webp`,
             ].map((src, i) => (
               <img
                 key={i}
                 src={src}
                 alt={`Gallery ${i + 1}`}
+                loading="lazy"
                 className="h-16 w-full object-cover rounded-md hover:opacity-90 transition duration-200 ease-in-out"
                 onError={(e) =>
                   (e.target.src =
